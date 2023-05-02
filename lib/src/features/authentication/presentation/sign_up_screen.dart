@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:tinder_app/src/common_widgets/banner_widget.dart';
+import 'package:tinder_app/src/common_widgets/custome_button_widget.dart';
+import 'package:tinder_app/src/common_widgets/custome_text_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/custome_text_field_widget.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
 
@@ -53,6 +55,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: 'write your security',
                 controller: passwordController,
                 isObscure: true,
+              ),
+              SizedBox(
+                height: AppSize.s16,
+              ),
+              CustomeButtonWidget(
+                title: 'Get Started',
+                onTap: () {},
+              ),
+              SizedBox(
+                height: AppSize.s20,
+              ),
+              CustomeTextButtonWidget(
+                title: 'Sign in to My Account',
+                onPressed: () {},
               ),
             ],
           ),
