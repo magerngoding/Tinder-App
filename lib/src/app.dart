@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tinder_app/src/features/authentication/presentation/sign_up_screen.dart';
+import 'package:tinder_app/src/features/authentication/presentation/sign_up_age_job_screen.dart';
+import 'package:tinder_app/src/features/authentication/presentation/sign_up_upload_photo_screen.dart';
 import 'package:tinder_app/src/theme_manager/theme_data.manager.dart';
 
 class AppScreen extends StatelessWidget {
@@ -16,6 +18,9 @@ class AppScreen extends StatelessWidget {
       initialRoute: SignUpScreen.routeName,
       routes: {
         SignUpScreen.routeName: (context) => SignUpScreen(),
+        SignUpAgeJobScreen.routeName: (context) => SignUpAgeJobScreen(),
+        SignUpUploadPhotoScreen.routeName: (context) =>
+            SignUpUploadPhotoScreen(),
       },
     );
   }
