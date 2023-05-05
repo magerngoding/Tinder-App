@@ -5,6 +5,7 @@ import 'package:tinder_app/src/common_widgets/custome_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/custome_text_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/logo_and_tagline_widget.dart';
 import 'package:tinder_app/src/common_widgets/upload_photo_widget.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/explore_people_screen.dart';
 import 'package:tinder_app/src/theme_manager/font_manager.dart';
 import 'package:tinder_app/src/theme_manager/style_manager.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
@@ -39,7 +40,7 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                 height: 53,
               ),
               Text(
-                'Siraj Hafizh',
+                'Cahya Oktaviani',
                 style: getWhiteTextStyle().copyWith(
                   fontSize: 22,
                   fontWeight: FontWeightManager.semiBold,
@@ -60,11 +61,13 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
                 onTap: () {},
               ),
               SizedBox(
-                height: AppSize.s20,
+                height: AppSize.s12,
               ),
               CustomeTextButtonWidget(
                 title: 'Skip for Now',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, ExplorePeopleScreen.routeName);
+                },
               ),
             ],
           ),
