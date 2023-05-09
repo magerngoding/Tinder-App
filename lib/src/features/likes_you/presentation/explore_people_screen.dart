@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tinder_app/src/common_widgets/explore_people_app_bar_widget.dart';
+import 'package:tinder_app/src/common_widgets/explore_people_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/match_card_widget.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
 
@@ -30,6 +31,10 @@ class ExplorePeopleScreen extends StatelessWidget {
                   Expanded(
                     child: MatchCardWidget(),
                   ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  ExplorePeopleButtonWidget(),
                 ],
               ),
             ),

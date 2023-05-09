@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tinder_app/src/common_widgets/logo_widget.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/people_love_screen.dart';
 
 class ExplorePeopleAppBarWidget extends StatelessWidget {
   const ExplorePeopleAppBarWidget({super.key});
@@ -23,13 +24,18 @@ class ExplorePeopleAppBarWidget extends StatelessWidget {
           ),
         ),
         LogoWidget(),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/icon_notification.png'),
-              fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, PeopleLoveScreen.routeName);
+          },
+          child: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/icon_notification.png'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         )
