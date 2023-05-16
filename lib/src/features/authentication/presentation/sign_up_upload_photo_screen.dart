@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tinder_app/src/common_widgets/custome_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/custome_text_button_widget.dart';
@@ -9,6 +11,7 @@ import 'package:tinder_app/src/features/likes_you/presentation/explore_people_sc
 import 'package:tinder_app/src/theme_manager/font_manager.dart';
 import 'package:tinder_app/src/theme_manager/style_manager.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
+import 'package:tinder_app/src/util/image_picker_util.dart';
 
 class SignUpUploadPhotoScreen extends StatefulWidget {
   static const String routeName = '/sign-up-upload-photo';
@@ -20,6 +23,19 @@ class SignUpUploadPhotoScreen extends StatefulWidget {
 }
 
 class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
+  File? image;
+
+  void getImageProfile(GetImageFrom source) async {
+    final result = await ImagePickerUtil.getImage(source);
+    if (result != null) {
+      setState(
+        () {
+          image = File(result.path);
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +51,45 @@ class _SignUpUploadPhotoScreenState extends State<SignUpUploadPhotoScreen> {
               SizedBox(
                 height: 50,
               ),
-              UploadPhotoWidget(),
+              GestureDetector(
+                onTap: () {
+                  // Pake ini agar bisa nampilin halaman lain atau pop up row
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        padding: EdgeInsets.all(24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                getImageProfile(GetImageFrom.camera);
+                              },
+                              icon: Icon(
+                                Icons.camera_alt_sharp,
+                                size: 50,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                getImageProfile(GetImageFrom.gallery);
+                              },
+                              icon: Icon(
+                                Icons.photo,
+                                size: 50,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: UploadPhotoWidget(
+                  image: image,
+                ),
+              ),
               SizedBox(
                 height: 53,
               ),

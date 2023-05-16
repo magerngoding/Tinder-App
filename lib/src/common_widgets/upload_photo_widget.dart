@@ -1,10 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
 import 'package:tinder_app/src/theme_manager/color_manager.dart';
 
 class UploadPhotoWidget extends StatelessWidget {
-  const UploadPhotoWidget({super.key});
+  final File? image;
+
+  const UploadPhotoWidget({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +34,17 @@ class UploadPhotoWidget extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Image(
-              image: AssetImage(
-                'assets/images/profile_icon.png',
-              ),
-              fit: BoxFit.contain,
-            ),
+            child: image != null
+                ? Image(
+                    image: FileImage(image!),
+                    fit: BoxFit.cover,
+                  )
+                : Image(
+                    image: AssetImage(
+                      'assets/images/profile_icon.png',
+                    ),
+                    fit: BoxFit.contain,
+                  ),
           ),
         ),
         Positioned(
