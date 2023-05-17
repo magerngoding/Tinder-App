@@ -23,7 +23,6 @@ class AppScreen extends StatelessWidget {
       initialRoute: SignUpScreen.routeName,
       routes: {
         SignUpScreen.routeName: (context) => SignUpScreen(),
-        SignUpAgeJobScreen.routeName: (context) => SignUpAgeJobScreen(),
         SignUpUploadPhotoScreen.routeName: (context) =>
             SignUpUploadPhotoScreen(),
         ExplorePeopleScreen.routeName: (context) => ExplorePeopleScreen(),
