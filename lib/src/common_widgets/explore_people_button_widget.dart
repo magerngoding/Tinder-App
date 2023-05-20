@@ -1,8 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
+
 import 'package:tinder_app/src/common_widgets/match_button_widget.dart';
 
 class ExplorePeopleButtonWidget extends StatelessWidget {
-  const ExplorePeopleButtonWidget({super.key});
+  final AppinioSwiperController controller;
+  const ExplorePeopleButtonWidget({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +18,9 @@ class ExplorePeopleButtonWidget extends StatelessWidget {
       children: [
         MatchButtonWidget(
           iconPath: 'icon_close.png',
-          onTap: () {},
+          onTap: () {
+            controller.swipeLeft();
+          },
         ),
         MatchButtonWidget(
           dimesion: 80,
@@ -20,7 +29,9 @@ class ExplorePeopleButtonWidget extends StatelessWidget {
         ),
         MatchButtonWidget(
           iconPath: 'icon_favorite.png',
-          onTap: () {},
+          onTap: () {
+            controller.swipeRight();
+          },
         ),
       ],
     );

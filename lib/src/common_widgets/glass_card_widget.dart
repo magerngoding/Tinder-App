@@ -1,14 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
+import '../features/likes_you/domain/user.dart';
 import '../theme_manager/font_manager.dart';
 import '../theme_manager/style_manager.dart';
 
 class GlassCardWidget extends StatelessWidget {
+  final User user;
+
   const GlassCardWidget({
-    super.key,
-  });
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +45,14 @@ class GlassCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Cahya Oktaviani',
+                user.fullname,
                 style: getWhiteTextStyle(
                   fontSize: 20,
                   fontWeight: FontWeightManager.semiBold,
                 ),
               ),
               Text(
-                '22',
+                '${user.age}, ${user.occupation}',
                 style: getWhiteTextStyle(
                   fontSize: 14,
                 ),

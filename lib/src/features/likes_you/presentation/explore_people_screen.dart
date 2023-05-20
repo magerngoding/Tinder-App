@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_app/src/common_widgets/explore_people_app_bar_widget.dart';
 import 'package:tinder_app/src/common_widgets/explore_people_button_widget.dart';
 import 'package:tinder_app/src/common_widgets/match_card_widget.dart';
 import 'package:tinder_app/src/features/authentication/data/data_user_account_local.dart';
 import 'package:tinder_app/src/features/authentication/domainn/user_account.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/bloc/bloc/explore_people_bloc.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
 
 class ExplorePeopleScreen extends StatefulWidget {
@@ -19,6 +22,7 @@ class ExplorePeopleScreen extends StatefulWidget {
 
 class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
   UserAccount? account;
+  final cardController = AppinioSwiperController();
 
   getDataUserAccount() async {
     final data = await DataUserAccountLocal.getDataUserAccountFromStorage();
@@ -30,7 +34,14 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<ExplorePeopleBloc>().add(OnExplorePeopleEventCalled());
     getDataUserAccount();
+  }
+
+  @override
+  void dispose() {
+    cardController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,18 +60,43 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
             SizedBox(
               height: 50,
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: MatchCardWidget(),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  ExplorePeopleButtonWidget(),
-                ],
-              ),
+            BlocBuilder<ExplorePeopleBloc, ExplorePeopleState>(
+              builder: (context, state) {
+                if (state is ExplorePeopleLoading) {
+                  return CircularProgressIndicator();
+                }
+                if (state is ExplorePeopleLoaded) {
+                  final users = state.result;
+                  List<Widget> cards = [];
+                  for (var user in users) {
+                    cards.add(MatchCardWidget(user: user));
+                  }
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: AppinioSwiper(
+                            controller: cardController,
+                            onEnd: () {
+                              context
+                                  .read<ExplorePeopleBloc>()
+                                  .add(OnExplorePeopleEventCalled());
+                            },
+                            cards: cards,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        ExplorePeopleButtonWidget(
+                          controller: cardController,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),
