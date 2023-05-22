@@ -8,8 +8,10 @@ import 'package:tinder_app/src/common_widgets/explore_people_button_widget.dart'
 import 'package:tinder_app/src/common_widgets/match_card_widget.dart';
 import 'package:tinder_app/src/features/authentication/data/data_user_account_local.dart';
 import 'package:tinder_app/src/features/authentication/domainn/user_account.dart';
-import 'package:tinder_app/src/features/likes_you/presentation/bloc/bloc/explore_people_bloc.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/bloc/explore_people/people_loved/bloc/people_loved_bloc.dart';
 import 'package:tinder_app/src/theme_manager/values_manager.dart';
+
+import 'bloc/explore_people/explore_people_bloc.dart';
 
 class ExplorePeopleScreen extends StatefulWidget {
   static const String routeName = '/explore-people';
@@ -76,12 +78,38 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
                       children: [
                         Expanded(
                           child: AppinioSwiper(
+                            direction: AppinioSwiperDirection.top,
                             controller: cardController,
+                            onSwipe: (
+                              int index,
+                              AppinioSwiperDirection direction,
+                            ) {
+                              if (direction == AppinioSwiperDirection.top) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Yey!, you match with ${users[index].fullname}',
+                                    ),
+                                  ),
+                                );
+                                if (direction != AppinioSwiperDirection.left &&
+                                    direction != AppinioSwiperDirection.right &&
+                                    direction !=
+                                        AppinioSwiperDirection.bottom) {
+                                  context.read<PeopleLovedBloc>().add(
+                                        AddPeopleLoved(
+                                          user: users[index],
+                                        ),
+                                      );
+                                }
+                              }
+                            },
                             onEnd: () {
                               context
                                   .read<ExplorePeopleBloc>()
                                   .add(OnExplorePeopleEventCalled());
                             },
+                            padding: EdgeInsets.zero,
                             cards: cards,
                           ),
                         ),

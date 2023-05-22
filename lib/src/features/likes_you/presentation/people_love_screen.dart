@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tinder_app/src/common_widgets/people_love_card.widget.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/bloc/explore_people/explore_people_bloc.dart';
+import 'package:tinder_app/src/features/likes_you/presentation/bloc/explore_people/people_loved/bloc/people_loved_bloc.dart';
 import 'package:tinder_app/src/theme_manager/font_manager.dart';
 import 'package:tinder_app/src/theme_manager/style_manager.dart';
 
-class PeopleLoveScreen extends StatelessWidget {
+class PeopleLoveScreen extends StatefulWidget {
   static const String routeName = '/people-love';
   const PeopleLoveScreen({super.key});
+
+  @override
+  State<PeopleLoveScreen> createState() => _PeopleLoveScreenState();
+}
+
+class _PeopleLoveScreenState extends State<PeopleLoveScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PeopleLovedBloc>().add(OnPeopleLovedEventCalled());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +49,24 @@ class PeopleLoveScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return PeopleLovedCardWidget();
-              },
-            ),
+          BlocBuilder<PeopleLovedBloc, PeopleLovedState>(
+            builder: (context, state) {
+              if (state is PeopleLovedLoading) {
+                return CircularProgressIndicator();
+              }
+              if (state is PeopleLovedLoaded) {
+                final users = state.userMatch;
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: users.length,
+                    itemBuilder: (context, index) {
+                      return PeopleLovedCardWidget();
+                    },
+                  ),
+                );
+              }
+              return Container();
+            },
           ),
         ],
       ),
